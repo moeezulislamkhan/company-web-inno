@@ -14,6 +14,76 @@
     year.textContent = new Date().getFullYear();
   }
 
+  const backToTop = document.getElementById('backToTop');
+  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  function updateBackToTop() {
+    if (backToTop) {
+      backToTop.classList.toggle('is-visible', window.scrollY > 500);
+    }
+  }
+
+  window.addEventListener('scroll', updateBackToTop, { passive: true });
+  updateBackToTop();
+
+  if (backToTop) {
+    backToTop.addEventListener('click', function () {
+      window.scrollTo({
+        top: 0,
+        behavior: prefersReducedMotion ? 'auto' : 'smooth'
+      });
+    });
+  }
+
+  const identityTitle = document.querySelector('.identity h1');
+  const reducedIdentityMotion = prefersReducedMotion;
+
+  if (identityTitle) {
+    identityTitle.innerHTML = '<span class="identity-title-main"></span><span class="identity-title-accent"></span>';
+
+    const titleMain = identityTitle.querySelector('.identity-title-main');
+    const titleAccent = identityTitle.querySelector('.identity-title-accent');
+
+    function typeIdentityText(element, text, done) {
+      let index = 0;
+      element.classList.add('is-typing');
+
+      function typeNextCharacter() {
+        element.textContent = text.slice(0, index + 1);
+        index += 1;
+
+        if (index < text.length) {
+          window.setTimeout(typeNextCharacter, 125);
+        } else {
+          element.classList.remove('is-typing');
+          done();
+        }
+      }
+
+      typeNextCharacter();
+    }
+
+    if (reducedIdentityMotion) {
+      titleMain.textContent = 'We Are';
+      titleAccent.textContent = 'Innovexa.';
+    } else {
+      function startIdentityTyping() {
+        titleMain.textContent = '';
+        titleAccent.textContent = '';
+
+        typeIdentityText(titleMain, 'We Are', function () {
+          window.setTimeout(function () {
+            typeIdentityText(titleAccent, 'Innovexa.', function () {
+              window.setTimeout(startIdentityTyping, 1800);
+            });
+          }, 180);
+        });
+      }
+
+      startIdentityTyping();
+    }
+  }
+
 
   /* -----------------------------------------
      02. INNOVEXA DNA — Interactive Nodes
@@ -86,7 +156,10 @@
   /* -----------------------------------------
      03. Scroll Reveal System
      ----------------------------------------- */
-  const scenes = document.querySelectorAll('.scene');
+  const scenes = document.querySelectorAll('.scene:not(.origin):not(.thinking):not(.ending)');
+  const originScene = document.querySelector('.origin');
+  const thinkingScene = document.querySelector('.thinking');
+  const endingScene = document.querySelector('.ending');
 
   if ('IntersectionObserver' in window) {
 
@@ -111,12 +184,78 @@
       sceneObserver.observe(scene);
     });
 
+    if (originScene) {
+      const originObserver = new IntersectionObserver(
+        function (entries, observer) {
+          entries.forEach(function (entry) {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('is-seen');
+              observer.unobserve(entry.target);
+            }
+          });
+        },
+        {
+          threshold: 0.25
+        }
+      );
+
+      originObserver.observe(originScene);
+    }
+
+    if (thinkingScene) {
+      const thinkingObserver = new IntersectionObserver(
+        function (entries, observer) {
+          entries.forEach(function (entry) {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('is-seen');
+              observer.unobserve(entry.target);
+            }
+          });
+        },
+        {
+          threshold: 0.25
+        }
+      );
+
+      thinkingObserver.observe(thinkingScene);
+    }
+
+    if (endingScene) {
+      const endingObserver = new IntersectionObserver(
+        function (entries, observer) {
+          entries.forEach(function (entry) {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('is-seen');
+              observer.unobserve(entry.target);
+            }
+          });
+        },
+        {
+          threshold: 0.25
+        }
+      );
+
+      endingObserver.observe(endingScene);
+    }
+
   } else {
 
     // Fallback for older browsers
     scenes.forEach(function (scene) {
       scene.classList.add('is-seen');
     });
+
+    if (originScene) {
+      originScene.classList.add('is-seen');
+    }
+
+    if (thinkingScene) {
+      thinkingScene.classList.add('is-seen');
+    }
+
+    if (endingScene) {
+      endingScene.classList.add('is-seen');
+    }
 
   }
 
@@ -254,6 +393,81 @@
     );
 
   });
+
+  const evolutionTrack = document.querySelector('.evolution-track');
+  const evolutionCards = evolutionTrack
+    ? Array.from(evolutionTrack.querySelectorAll('article'))
+    : [];
+  const reducedEvolutionMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  if (evolutionTrack && evolutionCards.length && !reducedEvolutionMotion) {
+    const clonedCards = evolutionCards.map(function (card) {
+      const clone = card.cloneNode(true);
+      clone.setAttribute('aria-hidden', 'true');
+      return clone;
+    });
+
+    clonedCards.forEach(function (card) {
+      evolutionTrack.appendChild(card);
+    });
+
+    let animationFrame = null;
+    let touchPaused = false;
+    let loopWidth = 0;
+
+    function stopEvolutionCarousel() {
+      if (animationFrame) {
+        window.cancelAnimationFrame(animationFrame);
+        animationFrame = null;
+      }
+    }
+
+    function runEvolutionCarousel() {
+      if (touchPaused) {
+        return;
+      }
+
+      evolutionTrack.scrollLeft += 1.7;
+
+      if (loopWidth && evolutionTrack.scrollLeft >= loopWidth) {
+        evolutionTrack.scrollLeft -= loopWidth;
+      }
+
+      animationFrame = window.requestAnimationFrame(runEvolutionCarousel);
+    }
+
+    function startEvolutionCarousel() {
+      stopEvolutionCarousel();
+      loopWidth = clonedCards[0].offsetLeft - evolutionCards[0].offsetLeft;
+
+      if (!touchPaused) {
+        animationFrame = window.requestAnimationFrame(runEvolutionCarousel);
+      }
+    }
+
+    evolutionTrack.addEventListener('mouseenter', stopEvolutionCarousel);
+    evolutionTrack.addEventListener('mouseleave', startEvolutionCarousel);
+    evolutionTrack.addEventListener('focusin', stopEvolutionCarousel);
+    evolutionTrack.addEventListener('focusout', startEvolutionCarousel);
+    evolutionTrack.addEventListener('touchstart', function () {
+      touchPaused = true;
+      stopEvolutionCarousel();
+    }, { passive: true });
+    evolutionTrack.addEventListener('touchend', function () {
+      touchPaused = false;
+      startEvolutionCarousel();
+    }, { passive: true });
+
+    const evolutionObserver = new IntersectionObserver(function (entries) {
+      if (entries[0].isIntersecting) {
+        startEvolutionCarousel();
+      } else {
+        stopEvolutionCarousel();
+      }
+    }, { threshold: 0.15 });
+
+    evolutionObserver.observe(evolutionTrack);
+  }
 
 
   /* -----------------------------------------

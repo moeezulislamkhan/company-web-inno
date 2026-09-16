@@ -8,6 +8,51 @@
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="css/about.css">
+<style>
+.evolution-track{scrollbar-width:none;-ms-overflow-style:none;scroll-behavior:auto;scroll-snap-type:none}
+.evolution-track::-webkit-scrollbar{display:none;width:0;height:0}
+.identity .orbit-a{width:min(78vw,calc(100svh + 20px));max-width:900px}
+.identity .orbit-b{width:min(35vw,calc(100svh - 160px));max-width:520px}
+@media (max-width:800px){.identity .orbit-a{width:min(94vw,calc(100svh + 10px))}.identity .orbit-b{width:min(52vw,calc(100svh - 150px))}}
+.origin-grid .section-intro{opacity:0;transform:translate3d(-70px,0,0);transition:opacity .8s var(--ease),transform .8s var(--ease)}
+.origin-grid .timeline{opacity:0;transform:translate3d(70px,0,0);transition:opacity .8s var(--ease) .12s,transform .8s var(--ease) .12s}
+.origin.is-seen .origin-grid .section-intro,.origin.is-seen .origin-grid .timeline{opacity:1;transform:translate3d(0,0,0)}
+.thinking-grid .section-intro{opacity:0;transform:translate3d(-70px,0,0);transition:opacity .8s var(--ease),transform .8s var(--ease)}
+.thinking-grid .transform-stage{opacity:0;transform:translate3d(70px,0,0);transition:opacity .8s var(--ease) .12s,transform .8s var(--ease) .12s}
+.thinking.is-seen .thinking-grid .section-intro,.thinking.is-seen .thinking-grid .transform-stage{opacity:1;transform:translate3d(0,0,0)}
+@media (prefers-reduced-motion:reduce){.origin-grid .section-intro,.origin-grid .timeline{opacity:1;transform:none;transition:none}}
+@media (prefers-reduced-motion:reduce){.thinking-grid .section-intro,.thinking-grid .transform-stage{opacity:1;transform:none;transition:none}}
+.north-star .orbit-line,.north-star .planet,.north-star .satellite{opacity:0}
+.north-star.is-seen .orbit-line{opacity:1;animation:none}
+.north-star.is-seen .planet{position:relative;overflow:hidden;opacity:1;animation:north-planet-pulse 3.4s ease-in-out infinite}
+.north-star.is-seen .planet::after{content:"";position:absolute;inset:-30% 0;width:42%;background:rgba(255,255,255,.28);filter:blur(14px);transform:translateX(-180%) skewX(-18deg);animation:north-planet-shine 4.2s ease-in-out infinite}
+.north-star.is-seen .satellite{opacity:1;animation:north-satellite-float 4s ease-in-out infinite}
+.north-star.is-seen .sat-b{animation-delay:-1.3s}.north-star.is-seen .sat-c{animation-delay:-2.5s}
+@keyframes north-planet-pulse{0%,100%{transform:scale(1);box-shadow:0 0 90px rgba(57,117,255,.5)}50%{transform:scale(1.06);box-shadow:0 0 120px rgba(57,117,255,.7)}}
+@keyframes north-planet-shine{0%,35%{transform:translateX(-180%) skewX(-18deg)}70%,100%{transform:translateX(360%) skewX(-18deg)}}
+@keyframes north-satellite-float{0%,100%{transform:translate3d(0,0,0)}50%{transform:translate3d(0,-9px,0)}}
+@media (prefers-reduced-motion:reduce){.north-star .orbit-line,.north-star .planet,.north-star .satellite{opacity:1}.north-star.is-seen .orbit-line,.north-star.is-seen .planet,.north-star.is-seen .satellite,.north-star.is-seen .planet::after{animation:none}}
+.identity h1 .identity-title-main{display:block;background:none;color:var(--white)}
+.identity h1 .identity-title-main.is-typing::after,.identity h1 .identity-title-accent.is-typing::after{content:"";display:inline-block;width:.07em;height:.72em;margin-left:.12em;background:var(--blue2);vertical-align:-.05em;animation:typing-cursor .8s steps(1,end) infinite}
+@keyframes typing-cursor{50%{opacity:0}}
+@media (prefers-reduced-motion:reduce){.identity h1 .identity-title-main.is-typing::after,.identity h1 .identity-title-accent.is-typing::after{animation:none}}
+.ending .kinetic-title>span,.ending .kinetic-title>strong{opacity:0;transition:opacity .85s var(--ease),transform .85s var(--ease)}
+.ending .kinetic-title>span{transform:translate3d(-90px,0,0)}
+.ending .kinetic-title>strong{transform:translate3d(90px,0,0);transition-delay:.12s}
+.ending.is-seen .kinetic-title>span,.ending.is-seen .kinetic-title>strong{opacity:1;transform:translate3d(0,0,0)}
+@media (prefers-reduced-motion:reduce){.ending .kinetic-title>span,.ending .kinetic-title>strong{opacity:1;transform:none;transition:none}}
+.ending .btn-primary{position:relative;isolation:isolate;overflow:hidden;background:linear-gradient(135deg,#a9d8ff 0%,#6baeff 48%,#3975ff 100%);border-color:rgba(183,222,255,.7);color:#07142c;transform:translate3d(0,0,0);box-shadow:0 4px 0 #2558bd,0 12px 26px rgba(57,117,255,.24);transition:transform .3s var(--ease),box-shadow .3s var(--ease),filter .3s ease}
+.ending .btn-primary::before{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(105deg,transparent 25%,rgba(255,255,255,.5) 48%,transparent 70%);transform:translateX(-130%);transition:transform .65s var(--ease)}
+.ending .btn-primary:hover{transform:translate3d(0,-4px,0);box-shadow:0 8px 0 #2558bd,0 18px 32px rgba(57,117,255,.3);filter:saturate(1.08)}
+.ending .btn-primary:hover::before{transform:translateX(130%)}
+@media (prefers-reduced-motion:reduce){.ending .btn-primary{transform:none;transition:none;box-shadow:0 4px 0 #2558bd,0 10px 22px rgba(57,117,255,.2)}.ending .btn-primary::before{display:none}}
+.about-back-to-top{position:fixed;right:24px;bottom:24px;width:52px;height:52px;border:0;border-radius:50%;background:linear-gradient(135deg,#8fe8ff 0%,#4ba2ff 42%,#5b6dff 100%);color:#04121c;display:flex;align-items:center;justify-content:center;box-shadow:0 14px 30px -14px rgba(91,109,255,.8),inset 0 1px 0 rgba(255,255,255,.48),inset 0 -4px 12px rgba(22,80,170,.4);opacity:0;pointer-events:none;cursor:pointer;transform:translateY(18px) scale(.92) perspective(600px) rotateX(22deg);transition:opacity .25s ease,transform .25s ease,box-shadow .25s ease;z-index:100}
+.about-back-to-top.is-visible{opacity:1;pointer-events:auto;transform:translateY(0) scale(1) perspective(600px) rotateX(0)}
+.about-back-to-top:hover{transform:translateY(-4px) scale(1.04) perspective(600px) rotateX(8deg);box-shadow:0 18px 34px -12px rgba(91,109,255,.95),inset 0 1px 0 rgba(255,255,255,.6),inset 0 -4px 14px rgba(34,76,184,.42)}
+.about-back-to-top svg{width:20px;height:20px}
+@media (max-width:600px){.about-back-to-top{right:16px;bottom:16px;width:46px;height:46px}}
+@media (prefers-reduced-motion:reduce){.about-back-to-top{transition:none}.about-back-to-top:hover{transform:none}}
+</style>
 </head>
 <body>
 <!-- <header class="site-header" id="header">
@@ -48,6 +93,12 @@
 
 <section class="ending scene scene-dark" id="ending"><div class="container ending-inner"><p class="section-index">08 — THIS IS INNOVEXA</p><h2 class="kinetic-title"><span>We Are</span><strong>Innovexa.</strong></h2><p>We build what is next — with purpose, precision and possibility.</p><a class="btn btn-primary" href="contact.html">Build with us <span>↗</span></a></div></section>
 </main>
+<button type="button" id="backToTop" class="about-back-to-top" aria-label="Back to top">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+    <line x1="12" y1="19" x2="12" y2="5"></line>
+    <polyline points="5 12 12 5 19 12"></polyline>
+  </svg>
+</button>
 <!-- <footer class="site-footer">
   <div class="container footer-grid">
     <div class="footer-brand">
