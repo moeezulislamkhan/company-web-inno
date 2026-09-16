@@ -2,6 +2,12 @@
 const $=s=>document.querySelector(s), $$=s=>document.querySelectorAll(s);
 const year=$('#year');
 if(year) year.textContent=new Date().getFullYear();
+const backToTop=$('#contactBackToTop');
+const prefersReducedMotion=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+function updateBackToTop(){if(backToTop)backToTop.classList.toggle('is-visible',window.scrollY>500)}
+window.addEventListener('scroll',updateBackToTop,{passive:true});
+updateBackToTop();
+backToTop?.addEventListener('click',()=>window.scrollTo({top:0,behavior:prefersReducedMotion?'auto':'smooth'}));
 const toggle=$('#navToggle'),nav=$('#nav');
 toggle?.addEventListener('click',()=>{const open=nav.classList.toggle('open');toggle.setAttribute('aria-expanded',open)});
 nav?.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>nav.classList.remove('open')));
