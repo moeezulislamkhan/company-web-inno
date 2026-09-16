@@ -2370,6 +2370,32 @@ body{
 
     let autoProgressStartedAt = 0;
 
+    let sectionInView = false;
+
+    const sectionObserver =
+        "IntersectionObserver" in window
+            ? new IntersectionObserver(
+                function(entries){
+                    sectionInView =
+                        entries.some(
+                            function(entry){
+                                return entry.isIntersecting;
+                            }
+                        );
+                },
+                {
+                    threshold:0
+                }
+            )
+            : null;
+
+    if(sectionObserver){
+        sectionObserver.observe(section);
+    }
+    else{
+        sectionInView = true;
+    }
+
     let lastRenderTime = performance.now();
 
 
@@ -2503,6 +2529,10 @@ body{
     }
 
     function updateAutoProgress(deltaMs){
+
+        if(!sectionInView){
+            return;
+        }
 
         if(!autoProgressStarted){
             autoProgressStartedAt = performance.now();
@@ -4558,6 +4588,10 @@ body{
 
 
     function handleScroll(){
+
+        if(!sectionInView){
+            return;
+        }
 
         // Keep the cinematic sequence running automatically.
         // Manual scrolling is allowed, but the section no longer

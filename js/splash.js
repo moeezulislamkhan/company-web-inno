@@ -365,7 +365,7 @@
     var dpr =
         Math.min(
             window.devicePixelRatio || 1,
-            2
+            1.5
         );
 
 
@@ -1297,6 +1297,32 @@
                 ) *
                 120;
 
+            var dx =
+                targetX -
+                startX;
+
+            var dy =
+                targetY -
+                startY;
+
+            var distance =
+                Math.sqrt(
+                    dx * dx +
+                    dy * dy
+                ) || 1;
+
+            var middleX =
+                (
+                    startX +
+                    targetX
+                ) / 2;
+
+            var middleY =
+                (
+                    startY +
+                    targetY
+                ) / 2;
+
 
             particles.push({
 
@@ -1332,6 +1358,22 @@
                     Math.PI *
                     2,
 
+                controlX:
+                    middleX +
+                    (
+                        -dy /
+                        distance
+                    ) *
+                    curve,
+
+                controlY:
+                    middleY +
+                    (
+                        dx /
+                        distance
+                    ) *
+                    curve,
+
                 speed:
                     100 +
                     Math.random() *
@@ -1359,23 +1401,18 @@
         alpha
     ) {
 
-        ctx.beginPath();
-
         ctx.fillStyle =
             particle.color;
 
         ctx.globalAlpha =
             alpha;
 
-        ctx.arc(
-            x,
-            y,
-            radius,
-            0,
-            Math.PI * 2
+        ctx.fillRect(
+            x - radius,
+            y - radius,
+            radius * 2,
+            radius * 2
         );
-
-        ctx.fill();
 
     }
 
@@ -1674,55 +1711,6 @@
                  * -------------------------------------------------
                  */
 
-                var dx =
-                    p.targetX -
-                    p.startX;
-
-
-                var dy =
-                    p.targetY -
-                    p.startY;
-
-
-                var distance =
-                    Math.sqrt(
-                        dx * dx +
-                        dy * dy
-                    ) || 1;
-
-
-                var middleX =
-                    (
-                        p.startX +
-                        p.targetX
-                    ) / 2;
-
-
-                var middleY =
-                    (
-                        p.startY +
-                        p.targetY
-                    ) / 2;
-
-
-                var controlX =
-                    middleX +
-                    (
-                        -dy /
-                        distance
-                    ) *
-                    p.curve;
-
-
-                var controlY =
-                    middleY +
-                    (
-                        dx /
-                        distance
-                    ) *
-                    p.curve;
-
-
                 var inverse =
                     1 -
                     travelEase;
@@ -1736,7 +1724,7 @@
                     2 *
                     inverse *
                     travelEase *
-                    controlX +
+                    p.controlX +
 
                     travelEase *
                     travelEase *
@@ -1751,7 +1739,7 @@
                     2 *
                     inverse *
                     travelEase *
-                    controlY +
+                    p.controlY +
 
                     travelEase *
                     travelEase *
@@ -1980,32 +1968,50 @@
              */
             var targetCount;
 
+            var cores =
+                navigator.hardwareConcurrency ||
+                4;
+
+            var isLowPower =
+                cores <= 4 ||
+                window.devicePixelRatio > 1.5;
+
 
             if (width <= 480) {
 
                 targetCount =
-                    3200;
+                    1200;
 
             }
 
             else if (width <= 640) {
 
                 targetCount =
-                    4000;
+                    1500;
 
             }
 
             else if (width <= 1024) {
 
                 targetCount =
-                    5200;
+                    1900;
 
             }
 
             else {
 
                 targetCount =
-                    6800;
+                    2400;
+
+            }
+
+            if (isLowPower) {
+
+                targetCount =
+                    Math.round(
+                        targetCount *
+                        0.72
+                    );
 
             }
 

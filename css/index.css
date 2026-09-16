@@ -1229,16 +1229,17 @@ html.splash-active body {
 
   transition:
     opacity .85s cubic-bezier(.22, 1, .36, 1),
-    filter .85s ease,
     transform .85s cubic-bezier(.22, 1, .36, 1);
+
+  contain: strict;
+
+  will-change: opacity, transform;
 }
 
 
 .splash-screen.is-leaving {
 
   opacity: 0;
-
-  filter: blur(12px);
 
   transform: scale(1.02);
 
@@ -1341,6 +1342,8 @@ html.splash-active body {
   height: 100%;
 
   z-index: 1;
+
+  contain: strict;
 }
 
 
