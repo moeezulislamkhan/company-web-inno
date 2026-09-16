@@ -501,6 +501,98 @@
             window.addEventListener("scroll", requestUpdate, { passive: true });
             window.addEventListener("resize", requestUpdate);
             updateStack();
+
+            const stackSection = document.querySelector(".stack-section");
+            let currentCard = 1;
+            let timer = null;
+            let frame = null;
+            let active = false;
+            let hovered = false;
+            let startTime = 0;
+            let startPosition = 0;
+            let targetPosition = 0;
+            const scrollDuration = 1100;
+
+            function stopAutoScroll() {
+                if (timer !== null) window.clearTimeout(timer);
+                if (frame !== null) window.cancelAnimationFrame(frame);
+                timer = null;
+                frame = null;
+                document.documentElement.style.scrollBehavior = "";
+            }
+
+            function moveToNextCard() {
+                if (!active || hovered || currentCard >= cards.length) return;
+
+                const topOffset = window.innerWidth <= 700 ? 58 : 94;
+                startPosition = window.scrollY;
+                targetPosition = window.scrollY + cards[currentCard].getBoundingClientRect().top - topOffset;
+                startTime = performance.now();
+                document.documentElement.style.scrollBehavior = "auto";
+
+                function animate(currentTime) {
+                    const progress = Math.min((currentTime - startTime) / scrollDuration, 1);
+                    const eased = 1 - Math.pow(1 - progress, 3);
+                    window.scrollTo(0, startPosition + (targetPosition - startPosition) * eased);
+
+                    if (progress < 1 && active && !hovered) {
+                        frame = window.requestAnimationFrame(animate);
+                        return;
+                    }
+
+                    frame = null;
+                    document.documentElement.style.scrollBehavior = "";
+                    if (!active) return;
+
+                    currentCard += 1;
+                    if (currentCard < cards.length) {
+                        timer = window.setTimeout(function () {
+                            timer = null;
+                            moveToNextCard();
+                        }, 1600);
+                    }
+                }
+
+                frame = window.requestAnimationFrame(animate);
+            }
+
+            function scheduleNextMove() {
+                if (!active || hovered || timer !== null || frame !== null || currentCard >= cards.length) return;
+
+                timer = window.setTimeout(function () {
+                    timer = null;
+                    moveToNextCard();
+                }, 1600);
+            }
+
+            cards.forEach(function (card) {
+                card.addEventListener("mouseenter", function () {
+                    hovered = true;
+                    if (timer !== null) window.clearTimeout(timer);
+                    if (frame !== null) window.cancelAnimationFrame(frame);
+                    timer = null;
+                    frame = null;
+                    document.documentElement.style.scrollBehavior = "";
+                });
+
+                card.addEventListener("mouseleave", function () {
+                    hovered = false;
+                    scheduleNextMove();
+                });
+            });
+
+            const stackObserver = new IntersectionObserver(function (entries) {
+                active = entries[0].isIntersecting;
+
+                if (!active) {
+                    stopAutoScroll();
+                    return;
+                }
+
+                scheduleNextMove();
+            }, { threshold: 0.01 });
+
+            stackObserver.observe(stackSection);
         })();
     </script>
 
