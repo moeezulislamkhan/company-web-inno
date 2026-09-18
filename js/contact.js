@@ -20,7 +20,13 @@ function update(){const n=ids.filter(id=>$('#'+id).value.trim()).length;progress
 function validate(id){const v=$('#'+id).value.trim();let m='';if(id==='service'&&!v)m='Please choose a service.';if(id==='idea'&&v.length<10)m='Give us a little more detail (10+ characters).';if(id==='name'&&v.length<2)m='Please enter your name.';if(id==='email'&&!/^\S+@\S+\.\S+$/.test(v))m='Please enter a valid email.';err(id,m);return !m}
 ids.forEach(id=>$('#'+id).addEventListener('input',update));
 idea.addEventListener('input',()=>count.textContent=idea.value.length+' / 1000');
-form.addEventListener('submit',e=>{e.preventDefault();success.classList.remove('show');const ok=ids.map(validate).every(Boolean);update();if(!ok){form.querySelector('input,textarea,select').focus();return}success.classList.add('show')});
+form.addEventListener('submit',e=>{e.preventDefault();success.classList.remove('show');const ok=ids.map(validate).every(Boolean);update();if(!ok){form.querySelector('input,textarea,select').focus();return}
+const subject='New Contact Form Submission';
+const body=['Service: '+$('#service').value,'Project details: '+$('#idea').value,'Name: '+$('#name').value,'Email: '+$('#email').value,'Estimated budget: '+($('#budget').value||'Prefer not to say')].join('\n\n');
+const mailto='mailto:innovexa.technologies01@gmail.com?subject='+encodeURIComponent(subject)+'&body='+encodeURIComponent(body);
+success.classList.add('show');
+window.location.href=mailto;
+window.setTimeout(()=>{if(document.visibilityState==='visible')window.alert('Please configure an email application to continue with your contact request.')},1500)});
 const copy={project:['START A PROJECT','Bring us the possibility.',"We'll help turn the first conversation into a clear next step."],partner:['PARTNER WITH US','Add Innovexa to your team.','Bring us in where strategy, design or engineering needs more momentum.'],hello:['JUST SAY HELLO','Start with a simple hello.','Questions, introductions or future ideas are always welcome.']};
 $$('[data-path]').forEach(card=>card.addEventListener('click',()=>{ $$('[data-path]').forEach(x=>x.classList.remove('active'));card.classList.add('active');const c=copy[card.dataset.path];$('#readout').innerHTML=`<small>${c[0]}</small><b>${c[1]}</b><span>${c[2]}</span>`}));
 $$('a[href^="#"]').forEach(a=>a.addEventListener('click',e=>{const t=$(a.getAttribute('href'));if(t){e.preventDefault();t.scrollIntoView({behavior:'smooth'})}}));
