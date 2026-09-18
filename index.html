@@ -53,6 +53,11 @@
     max-width:100%;
   }
 
+.home-section5,
+.home-section6{
+    scroll-margin-top:88px;
+}
+
   /* ===================== HEADER ===================== */
   .site-header{
     position:sticky;
@@ -8975,6 +8980,8 @@
 
     let currentPhase = -1;
 
+    let completionDispatched = false;
+
     let reducedMotion =
         window.matchMedia(
             "(prefers-reduced-motion: reduce)"
@@ -11227,6 +11234,18 @@
 
         }
 
+        if(
+            progress >= 1 &&
+            !completionDispatched
+        ){
+
+            completionDispatched = true;
+            window.dispatchEvent(
+                new CustomEvent("home:section4-complete")
+            );
+
+        }
+
 
         updateUI();
 
@@ -11916,6 +11935,8 @@
     let nodes = [];
 
     let animationId = null;
+
+    let completionDispatched = false;
 
     let autoProgressStarted = false;
 
@@ -13940,6 +13961,30 @@
                 : .075
             );
 
+        if(
+            Math.abs(
+                currentProgress -
+                targetProgress
+            ) < .0001
+        ){
+
+            currentProgress =
+                targetProgress;
+
+        }
+
+        if(
+            currentProgress >= 1 &&
+            !completionDispatched
+        ){
+
+            completionDispatched = true;
+            window.dispatchEvent(
+                new CustomEvent("home:section5-complete")
+            );
+
+        }
+
 
         smoothMouseX =
             lerp(
@@ -14948,6 +14993,52 @@ if (ideaCta) {
       mainNav.classList.remove('open');
     });
   });
+</script>
+
+<script>
+
+    (() => {
+
+        "use strict";
+
+        const section5 =
+            document.querySelector(".home-section5");
+
+        const section6 =
+            document.querySelector(".home-section6");
+
+        const reducedMotion =
+            window.matchMedia(
+                "(prefers-reduced-motion: reduce)"
+            ).matches;
+
+        const scrollToSection = (section) => {
+
+            if(!section){
+                return;
+            }
+
+            section.scrollIntoView({
+                behavior: reducedMotion ? "auto" : "smooth",
+                block: "start"
+            });
+
+        };
+
+        window.addEventListener(
+            "home:section4-complete",
+            () => scrollToSection(section5),
+            {once:true}
+        );
+
+        window.addEventListener(
+            "home:section5-complete",
+            () => scrollToSection(section6),
+            {once:true}
+        );
+
+    })();
+
 </script>
 
 </body>
