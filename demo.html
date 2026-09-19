@@ -204,7 +204,7 @@ img{
     width:100%;
 
     height:
-        clamp(470px, 57vw, 650px);
+        clamp(420px, calc(57vw - 50px), 600px);
 
     overflow:hidden;
 
@@ -370,15 +370,7 @@ img{
 
 .journal-architecture{
 
-    position:absolute;
-
-    inset:0;
-
-    z-index:3;
-
-    pointer-events:none;
-
-    opacity:.55;
+    display:none;
 }
 
 .journal-architecture::before{
@@ -847,6 +839,36 @@ img{
     align-items:center;
 }
 
+.blog-hero-grid > :first-child,
+.blog-hero-grid > :last-child{
+    opacity:0;
+    transition:opacity .85s cubic-bezier(.2,.75,.2,1),transform .95s cubic-bezier(.2,.75,.2,1);
+}
+
+.blog-hero-grid > :first-child{
+    transform:translateX(-70px);
+}
+
+.blog-hero-grid > :last-child{
+    transform:translateX(70px);
+    transition-delay:.12s;
+}
+
+.blog-hero.is-visible .blog-hero-grid > :first-child,
+.blog-hero.is-visible .blog-hero-grid > :last-child{
+    opacity:1;
+    transform:translateX(0);
+}
+
+@media (prefers-reduced-motion:reduce){
+    .blog-hero-grid > :first-child,
+    .blog-hero-grid > :last-child{
+        opacity:1;
+        transform:none;
+        transition:none;
+    }
+}
+
 .blog-eyebrow{
 
     display:flex;
@@ -960,7 +982,7 @@ img{
 
     position:relative;
 
-    min-height:510px;
+    min-height:470px;
 
     perspective:1500px;
 }
@@ -2072,6 +2094,32 @@ img{
     position:relative;
 }
 
+.spotlight-box > .spotlight-content,
+.spotlight-box > .spotlight-quote{
+    opacity:0;
+    transform:scale(.72);
+    transition:opacity .9s cubic-bezier(.2,.75,.2,1),transform 1s cubic-bezier(.2,.75,.2,1);
+}
+
+.spotlight-section.is-visible .spotlight-box > .spotlight-content,
+.spotlight-section.is-visible .spotlight-box > .spotlight-quote{
+    opacity:1;
+    transform:scale(1);
+}
+
+.spotlight-section.is-visible .spotlight-box > .spotlight-quote{
+    transition-delay:.12s;
+}
+
+@media (prefers-reduced-motion:reduce){
+    .spotlight-box > .spotlight-content,
+    .spotlight-box > .spotlight-quote{
+        opacity:1;
+        transform:none;
+        transition:none;
+    }
+}
+
 .spotlight-box::before{
 
     content:"";
@@ -2374,7 +2422,7 @@ img{
 
     .hero-stage{
 
-        min-height:500px;
+        min-height:460px;
     }
 
     .archive-header{
@@ -2421,7 +2469,7 @@ img{
 
     .journal-carousel{
 
-        height:570px;
+        height:520px;
     }
 
     .journal-slide-content{
@@ -2497,7 +2545,7 @@ img{
 
     .hero-stage{
 
-        min-height:440px;
+        min-height:400px;
     }
 
     .archive-section,
@@ -2552,7 +2600,7 @@ img{
 
     .journal-carousel{
 
-        height:560px;
+        height:510px;
     }
 
     .journal-slide::before{
@@ -2667,7 +2715,7 @@ img{
 
     .hero-stage{
 
-        min-height:390px;
+        min-height:350px;
     }
 
     .hero-featured{
@@ -2790,7 +2838,7 @@ img{
 
     .journal-carousel{
 
-        height:535px;
+        height:485px;
     }
 
     .journal-slide-title{
@@ -3243,89 +3291,6 @@ input:focus-visible{
 
 
 
-            <!-- =================================================
-                 COUNTER
-            ================================================== -->
-
-            <div
-                class="journal-counter"
-                id="journalCounter"
-            >
-                01 / 04
-            </div>
-
-
-
-            <!-- =================================================
-                 CONTROLS
-            ================================================== -->
-
-            <div class="journal-controls">
-
-
-                <div class="journal-arrows">
-
-                    <button
-                        class="journal-arrow"
-                        id="journalPrev"
-                        type="button"
-                        aria-label="Previous slide"
-                    >
-                        ←
-                    </button>
-
-
-                    <button
-                        class="journal-arrow"
-                        id="journalNext"
-                        type="button"
-                        aria-label="Next slide"
-                    >
-                        →
-                    </button>
-
-                </div>
-
-
-
-                <div
-                    class="journal-dots"
-                    aria-label="Carousel navigation"
-                >
-
-                    <button
-                        class="journal-dot active"
-                        type="button"
-                        data-slide-to="0"
-                        aria-label="Go to slide 1"
-                    ></button>
-
-                    <button
-                        class="journal-dot"
-                        type="button"
-                        data-slide-to="1"
-                        aria-label="Go to slide 2"
-                    ></button>
-
-                    <button
-                        class="journal-dot"
-                        type="button"
-                        data-slide-to="2"
-                        aria-label="Go to slide 3"
-                    ></button>
-
-                    <button
-                        class="journal-dot"
-                        type="button"
-                        data-slide-to="3"
-                        aria-label="Go to slide 4"
-                    ></button>
-
-                </div>
-
-
-            </div>
-
         </div>
 
     </div>
@@ -3338,7 +3303,7 @@ input:focus-visible{
      MAIN HERO
 ======================================================== -->
 
-<section class="blog-section blog-hero">
+<section class="blog-section blog-hero" id="blogHero">
 
     <div class="blog-container">
 
@@ -4356,7 +4321,7 @@ input:focus-visible{
      LONG READ
 ========================================================= -->
 
-<section class="blog-section spotlight-section">
+<section class="blog-section spotlight-section" id="spotlightSection">
 
     <div class="blog-container">
 
@@ -4527,6 +4492,104 @@ input:focus-visible{
 
 
 /* =========================================================
+   HERO DIRECTIONAL REVEAL
+========================================================= */
+
+(function(){
+
+    const heroSection =
+        document.getElementById(
+            "blogHero"
+        );
+
+    if(!heroSection){
+        return;
+    }
+
+    if(
+        window.matchMedia(
+            "(prefers-reduced-motion: reduce)"
+        ).matches
+    ){
+        heroSection.classList.add("is-visible");
+        return;
+    }
+
+    const heroObserver =
+        new IntersectionObserver(
+            function(entries, observer){
+
+                entries.forEach(function(entry){
+
+                    if(entry.isIntersecting){
+                        entry.target.classList.add("is-visible");
+                        observer.unobserve(entry.target);
+                    }
+
+                });
+
+            },
+            {
+                threshold:.2
+            }
+        );
+
+    heroObserver.observe(heroSection);
+
+})();
+
+
+
+    /* =========================================================
+       SPOTLIGHT ZOOM REVEAL
+    ========================================================= */
+
+    (function(){
+
+        const spotlightSection =
+            document.getElementById(
+                "spotlightSection"
+            );
+
+        if(!spotlightSection){
+            return;
+        }
+
+        if(
+            window.matchMedia(
+                "(prefers-reduced-motion: reduce)"
+            ).matches
+        ){
+            spotlightSection.classList.add("is-visible");
+            return;
+        }
+
+        const spotlightObserver =
+            new IntersectionObserver(
+                function(entries, observer){
+
+                    entries.forEach(function(entry){
+
+                        if(entry.isIntersecting){
+                            entry.target.classList.add("is-visible");
+                            observer.unobserve(entry.target);
+                        }
+
+                    });
+
+                },
+                {
+                    threshold:.2
+                }
+            );
+
+        spotlightObserver.observe(spotlightSection);
+
+    })();
+
+
+
+/* =========================================================
    JOURNAL CAROUSEL
 ========================================================= */
 
@@ -4541,27 +4604,6 @@ input:focus-visible{
         carousel.querySelectorAll(
             ".journal-slide"
         );
-
-    const dots =
-        carousel.querySelectorAll(
-            ".journal-dot"
-        );
-
-    const previous =
-        document.getElementById(
-            "journalPrev"
-        );
-
-    const next =
-        document.getElementById(
-            "journalNext"
-        );
-
-    const counter =
-        document.getElementById(
-            "journalCounter"
-        );
-
 
     let currentSlide = 0;
 
@@ -4605,23 +4647,6 @@ input:focus-visible{
             }
         );
 
-
-        dots.forEach(
-            (dot, dotIndex) => {
-
-                dot.classList.toggle(
-                    "active",
-                    dotIndex === currentSlide
-                );
-
-            }
-        );
-
-
-        counter.textContent =
-            formatNumber(currentSlide + 1) +
-            " / " +
-            formatNumber(totalSlides);
 
     }
 
@@ -4689,40 +4714,6 @@ input:focus-visible{
         startAutoPlay();
 
     }
-
-
-    next.addEventListener(
-        "click",
-        nextSlide
-    );
-
-
-    previous.addEventListener(
-        "click",
-        previousSlide
-    );
-
-
-    dots.forEach(
-        dot => {
-
-            dot.addEventListener(
-                "click",
-                function(){
-
-                    showSlide(
-                        Number(
-                            this.dataset.slideTo
-                        )
-                    );
-
-                    restartAutoPlay();
-
-                }
-            );
-
-        }
-    );
 
 
     carousel.addEventListener(

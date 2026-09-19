@@ -157,6 +157,7 @@
      03. Scroll Reveal System
      ----------------------------------------- */
   const scenes = document.querySelectorAll('.scene:not(.origin):not(.thinking):not(.ending)');
+  const teamCards = document.querySelectorAll('.team-editorial .team-card');
   const originScene = document.querySelector('.origin');
   const thinkingScene = document.querySelector('.thinking');
   const endingScene = document.querySelector('.ending');
@@ -176,12 +177,36 @@
 
       },
       {
-        threshold: 0.18
+        threshold: 0.12,
+        rootMargin: '0px 0px -8% 0px'
       }
     );
 
     scenes.forEach(function (scene) {
       sceneObserver.observe(scene);
+    });
+
+    const teamCardObserver = new IntersectionObserver(
+      function (entries, observer) {
+
+        entries.forEach(function (entry) {
+
+          if (entry.isIntersecting) {
+            entry.target.classList.add('is-visible');
+            observer.unobserve(entry.target);
+          }
+
+        });
+
+      },
+      {
+        threshold: 0.12,
+        rootMargin: '0px 0px -8% 0px'
+      }
+    );
+
+    teamCards.forEach(function (card) {
+      teamCardObserver.observe(card);
     });
 
     if (originScene) {
@@ -195,7 +220,8 @@
           });
         },
         {
-          threshold: 0.25
+          threshold: 0.12,
+          rootMargin: '0px 0px -8% 0px'
         }
       );
 
@@ -213,7 +239,8 @@
           });
         },
         {
-          threshold: 0.25
+          threshold: 0.12,
+          rootMargin: '0px 0px -8% 0px'
         }
       );
 
@@ -231,7 +258,8 @@
           });
         },
         {
-          threshold: 0.25
+          threshold: 0.12,
+          rootMargin: '0px 0px -8% 0px'
         }
       );
 
@@ -243,6 +271,10 @@
     // Fallback for older browsers
     scenes.forEach(function (scene) {
       scene.classList.add('is-seen');
+    });
+
+    teamCards.forEach(function (card) {
+      card.classList.add('is-visible');
     });
 
     if (originScene) {

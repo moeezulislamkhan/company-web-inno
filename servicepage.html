@@ -177,7 +177,7 @@
         }
 
         /* =========================================================
-           SECTION 1 — HERO
+           SECTION 1 ÔÇö HERO
            ========================================================= */
 
         .hero {
@@ -635,15 +635,13 @@
         }
 
         .services-heading {
-            display: flex;
-            align-items: end;
-            justify-content: space-between;
-            gap: 50px;
+            display: block;
             margin-bottom: 70px;
         }
 
         .services-heading .section-description {
-            margin: 0;
+            margin-top: 24px;
+            text-align: left;
         }
 
         .service-grid {
@@ -651,6 +649,12 @@
             grid-template-columns: repeat(3, minmax(0, 1fr));
             gap: 16px;
         }
+
+        .service-grid .service-card:nth-child(1) { order: 3; }
+        .service-grid .service-card:nth-child(2) { order: 2; }
+        .service-grid .service-card:nth-child(3) { order: 5; }
+        .service-grid .service-card:nth-child(4) { order: 1; }
+        .service-grid .service-card:nth-child(5) { order: 4; }
 
         .service-card {
             position: relative;
@@ -1085,6 +1089,101 @@
             display: none !important;
         }
 
+        .solutions-grid {
+            grid-template-columns: 1.08fr .92fr;
+            align-items: stretch;
+        }
+
+        .solution-gallery,
+        .solution-details-panel {
+            min-height: 560px;
+        }
+
+        .solution-gallery {
+            padding: 0;
+        }
+
+        .solution-gallery .commerce-visual {
+            min-height: 560px;
+            height: 100%;
+        }
+
+        .solution-details-panel {
+            background: linear-gradient(145deg, #101a35, #070b16);
+        }
+
+        .solution-details {
+            position: relative;
+            height: 100%;
+            padding: 38px;
+        }
+
+        .solution-detail {
+            position: absolute;
+            inset: 38px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            opacity: 0;
+            transform: translateY(16px);
+            transition: opacity .55s var(--ease), transform .55s var(--ease);
+            pointer-events: none;
+        }
+
+        .solution-detail.is-active {
+            opacity: 1;
+            transform: translateY(0);
+            pointer-events: auto;
+        }
+
+        .solution-detail h3 {
+            max-width: 440px;
+            margin-top: 15px;
+            font-size: clamp(32px, 3.5vw, 52px);
+            line-height: .98;
+            letter-spacing: -.055em;
+        }
+
+        .solution-detail p {
+            max-width: 430px;
+            margin-top: 18px;
+            color: var(--silver-3);
+            font-size: 13px;
+            line-height: 1.8;
+        }
+
+        .solution-detail .solution-tags {
+            margin-top: 28px;
+        }
+
+        @media (max-width: 1100px) {
+            .solution-gallery,
+            .solution-details-panel,
+            .solution-gallery .commerce-visual {
+                min-height: 500px;
+            }
+        }
+
+        @media (max-width: 800px) {
+            .solution-gallery,
+            .solution-details-panel,
+            .solution-gallery .commerce-visual {
+                min-height: 370px;
+            }
+
+            .solution-details-panel {
+                min-height: 470px;
+            }
+
+            .solution-details {
+                padding: 27px;
+            }
+
+            .solution-detail {
+                inset: 27px;
+            }
+        }
+
         .interface-block {
             position: absolute;
             right: 10%;
@@ -1211,10 +1310,7 @@
         }
 
         .process-heading {
-            display: grid;
-            grid-template-columns: .8fr 1.2fr;
-            gap: 50px;
-            align-items: end;
+            display: block;
             margin-bottom: 70px;
         }
 
@@ -1229,6 +1325,7 @@
             color: var(--silver-3);
             line-height: 1.85;
             font-size: 14px;
+            margin-top: 24px;
         }
 
         .process-grid {
@@ -1646,6 +1743,7 @@
 
             .services-heading .section-description {
                 margin-top: 20px;
+                text-align: left;
             }
 
             .service-grid {
@@ -2024,24 +2122,6 @@
                                     fetchpriority="high"
                                 >
 
-                                <div class="slide-content">
-
-                                    <div class="slide-category">
-                                        Digital Infrastructure
-                                    </div>
-
-                                    <div class="slide-title">
-                                        Connected Intelligence
-                                    </div>
-
-                                    <div class="slide-description">
-                                        Building technology ecosystems
-                                        designed to connect ideas,
-                                        products and people.
-                                    </div>
-
-                                </div>
-
                             </div>
 
                             <!-- SLIDE 02 -->
@@ -2055,24 +2135,6 @@
                                     alt="Advanced software development workstation"
                                     loading="lazy"
                                 >
-
-                                <div class="slide-content">
-
-                                    <div class="slide-category">
-                                        Product Engineering
-                                    </div>
-
-                                    <div class="slide-title">
-                                        Engineered To Perform
-                                    </div>
-
-                                    <div class="slide-description">
-                                        Scalable software foundations
-                                        built for speed, reliability
-                                        and long-term growth.
-                                    </div>
-
-                                </div>
 
                             </div>
 
@@ -2088,24 +2150,6 @@
                                     loading="lazy"
                                 >
 
-                                <div class="slide-content">
-
-                                    <div class="slide-category">
-                                        Cloud Systems
-                                    </div>
-
-                                    <div class="slide-title">
-                                        Built For Scale
-                                    </div>
-
-                                    <div class="slide-description">
-                                        Reliable digital infrastructure
-                                        that keeps modern products
-                                        moving without friction.
-                                    </div>
-
-                                </div>
-
                             </div>
 
                             <!-- SLIDE 04 -->
@@ -2120,24 +2164,6 @@
                                     loading="lazy"
                                 >
 
-                                <div class="slide-content">
-
-                                    <div class="slide-category">
-                                        Digital Experiences
-                                    </div>
-
-                                    <div class="slide-title">
-                                        Interfaces With Purpose
-                                    </div>
-
-                                    <div class="slide-description">
-                                        Clean interfaces engineered
-                                        around clarity, usability
-                                        and conversion.
-                                    </div>
-
-                                </div>
-
                             </div>
 
                             <!-- SLIDE 05 -->
@@ -2151,24 +2177,6 @@
                                     alt="Professional product strategy and digital transformation"
                                     loading="lazy"
                                 >
-
-                                <div class="slide-content">
-
-                                    <div class="slide-category">
-                                        Software Development
-                                    </div>
-
-                                    <div class="slide-title">
-                                        From Idea To Reality
-                                    </div>
-
-                                    <div class="slide-description">
-                                        Turning product concepts into
-                                        usable, scalable digital
-                                        experiences.
-                                    </div>
-
-                                </div>
 
                             </div>
 
@@ -2288,7 +2296,7 @@
 
                     <div class="service-tags">
                         <span class="service-tag">Frontend</span>
-                        <span class="service-tag">CMS</span>
+                        <span class="service-tag">Backend</span>
                         <span class="service-tag">Web Apps</span>
                     </div>
 
@@ -2334,44 +2342,6 @@
 
 
                 <!-- CARD 04 -->
-
-                <article class="service-card tilt-card reveal">
-
-                    <div class="service-index">
-                        04
-                    </div>
-
-                    <div class="service-icon">
-
-                        <svg viewBox="0 0 24 24">
-                            <path d="M4 6h16v13H4z"></path>
-                            <path d="M8 6V4h8v2"></path>
-                            <path d="M8 11h8"></path>
-                            <path d="M9 15h6"></path>
-                        </svg>
-
-                    </div>
-
-                    <h3>
-                        Shopify & E-commerce
-                    </h3>
-
-                    <p>
-                        Conversion-focused online stores with refined
-                        storefronts, structured products and practical
-                        commerce workflows.
-                    </p>
-
-                    <div class="service-tags">
-                        <span class="service-tag">Shopify</span>
-                        <span class="service-tag">Liquid</span>
-                        <span class="service-tag">Commerce</span>
-                    </div>
-
-                </article>
-
-
-                <!-- CARD 05 -->
 
                 <article class="service-card tilt-card reveal delay-1">
 
@@ -2606,109 +2576,21 @@
 
             <div class="solutions-grid">
 
-                <!-- COMMERCE -->
-
-                <article class="solution-panel large reveal">
-
-                    <div class="solution-content">
-
-                        <div>
-
-                            <div class="solution-type">
-                                Commerce Systems
-                            </div>
-
-                            <h3>
-                                Stores designed
-                                to convert.
-                            </h3>
-
-                            <p>
-                                We combine strong visual presentation
-                                with practical commerce architecture,
-                                creating storefronts that are easier
-                                to manage and easier for customers to use.
-                            </p>
-
-                            <div class="solution-tags">
-
-                                <span class="solution-tag">
-                                    Shopify
-                                </span>
-
-                                <span class="solution-tag">
-                                    WooCommerce
-                                </span>
-
-                                <span class="solution-tag">
-                                    Liquid
-                                </span>
-
-                                <span class="solution-tag">
-                                    Payments
-                                </span>
-
-                            </div>
-
-                        </div>
-
-                    </div>
+                <article class="solution-panel solution-gallery reveal">
 
                     <div class="commerce-visual">
 
                         <div class="owl-carousel commerce-carousel">
 
-                            <div class="commerce-slide">
-                                <img
-                                    src="https://images.unsplash.com/photo-1558655146-9f40138edfeb?auto=format&fit=crop&w=2000&q=90"
-                                    alt="Modern commerce interface design"
-                                    loading="lazy"
-                                >
-                            </div>
+                            <div class="commerce-slide"><img src="https://images.unsplash.com/photo-1558655146-9f40138edfeb?auto=format&fit=crop&w=2000&q=90" alt="Digital product interface design" loading="lazy"></div>
 
-                            <div class="commerce-slide">
-                                <img
-                                    src="https://images.unsplash.com/photo-1524758631624-e2822e304c36?auto=format&fit=crop&w=2000&q=90"
-                                    alt="E-commerce storefront displaying products"
-                                    loading="lazy"
-                                >
-                            </div>
+                            <div class="commerce-slide"><img src="https://images.unsplash.com/photo-1524758631624-e2822e304c36?auto=format&fit=crop&w=2000&q=90" alt="Team planning a digital product" loading="lazy"></div>
 
-                            <div class="commerce-slide">
-                                <img
-                                    src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=2000&q=90"
-                                    alt="Business analytics and online store dashboard"
-                                    loading="lazy"
-                                >
-                            </div>
+                            <div class="commerce-slide"><img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=2000&q=90" alt="Business analytics and data systems" loading="lazy"></div>
 
-                        </div>
+                            <div class="commerce-slide"><img src="https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=2000&q=90" alt="Cloud infrastructure and technology systems" loading="lazy"></div>
 
-                        <div class="interface-block">
-
-                            <div class="interface-header">
-
-                                <div class="interface-dots">
-                                    <i></i>
-                                    <i></i>
-                                    <i></i>
-                                </div>
-
-                                <div class="interface-label">
-                                    STORE / SYSTEM
-                                </div>
-
-                            </div>
-
-                            <div class="interface-body">
-
-                                <div class="interface-box big"></div>
-
-                                <div class="interface-box"></div>
-
-                                <div class="interface-box"></div>
-
-                            </div>
+                            <div class="commerce-slide"><img src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=2000&q=90" alt="Software development workspace" loading="lazy"></div>
 
                         </div>
 
@@ -2716,72 +2598,14 @@
 
                 </article>
 
+                <article class="solution-panel solution-details-panel reveal delay-1">
 
-                <!-- AI -->
-
-                <article class="solution-panel ai-panel reveal delay-1">
-
-                    <div class="ai-content">
-
-                        <div>
-
-                            <div class="solution-type">
-                                Intelligent Automation
-                            </div>
-
-                            <h3>
-                                Less repetition.
-                                More momentum.
-                            </h3>
-
-                            <p>
-                                Automate repetitive workflows, connect
-                                digital systems and use intelligent logic
-                                where it actually creates value.
-                            </p>
-
-                            <div class="ai-code">
-
-                                <div>
-                                    <span class="blue">workflow</span>
-                                    .connect()
-                                </div>
-
-                                <div>
-                                    <span class="blue">data</span>
-                                    .process()
-                                </div>
-
-                                <div>
-                                    <span class="blue">system</span>
-                                    .optimize()
-                                </div>
-
-                                <div>
-                                    <span class="blue">result</span>
-                                    .scale()
-                                </div>
-
-                            </div>
-
-                        </div>
-
-                        <div class="solution-tags">
-
-                            <span class="solution-tag">
-                                AI
-                            </span>
-
-                            <span class="solution-tag">
-                                APIs
-                            </span>
-
-                            <span class="solution-tag">
-                                Automation
-                            </span>
-
-                        </div>
-
+                    <div class="solution-details">
+                        <div class="solution-detail is-active" data-service-index="0"><div><div class="solution-type">Digital Product Design</div><h3>Experiences built for clarity.</h3><p>We shape focused interfaces that help people understand, trust and use digital products with confidence.</p></div><div class="solution-tags"><span class="solution-tag">UX Strategy</span><span class="solution-tag">UI Design</span><span class="solution-tag">Prototyping</span></div></div>
+                        <div class="solution-detail" data-service-index="1"><div><div class="solution-type">Product Strategy</div><h3>Direction before execution.</h3><p>We connect business goals, customer needs and technology into a practical plan built to create momentum.</p></div><div class="solution-tags"><span class="solution-tag">Discovery</span><span class="solution-tag">Roadmaps</span><span class="solution-tag">Research</span></div></div>
+                        <div class="solution-detail" data-service-index="2"><div><div class="solution-type">Data &amp; Analytics</div><h3>Better signals. Smarter decisions.</h3><p>We turn scattered information into useful insight so teams can move faster with a clearer view of what matters.</p></div><div class="solution-tags"><span class="solution-tag">Dashboards</span><span class="solution-tag">Reporting</span><span class="solution-tag">Insights</span></div></div>
+                        <div class="solution-detail" data-service-index="3"><div><div class="solution-type">Cloud Systems</div><h3>Infrastructure ready to scale.</h3><p>We build reliable foundations that keep products secure, available and ready for their next stage of growth.</p></div><div class="solution-tags"><span class="solution-tag">Cloud</span><span class="solution-tag">Security</span><span class="solution-tag">DevOps</span></div></div>
+                        <div class="solution-detail" data-service-index="4"><div><div class="solution-type">Software Development</div><h3>From idea to reliable reality.</h3><p>We engineer scalable web and mobile software that stays useful, maintainable and ready for real-world growth.</p></div><div class="solution-tags"><span class="solution-tag">Web Apps</span><span class="solution-tag">Mobile</span><span class="solution-tag">APIs</span></div></div>
                     </div>
 
                 </article>
@@ -2804,8 +2628,8 @@
             <div class="process-heading reveal">
 
                 <h2>
-                    Think.
-                    Create.
+                    Think.<br>
+                    Create.<br>
                     <span>Engineer.</span>
                 </h2>
 
@@ -3108,6 +2932,32 @@
             animateIn: "fadeIn",
             navText: ['<span>‹</span>', '<span>›</span>']
         });
+
+        const solutionDetails =
+            document.querySelectorAll(".solution-detail");
+
+        $(".commerce-carousel").on(
+            "changed.owl.carousel",
+            function (event) {
+
+                if (!event.item || !event.item.count) {
+                    return;
+                }
+
+                const activeIndex =
+                    event.item.index % event.item.count;
+
+                solutionDetails.forEach(function (detail) {
+
+                    detail.classList.toggle(
+                        "is-active",
+                        Number(detail.dataset.serviceIndex) === activeIndex
+                    );
+
+                });
+
+            }
+        );
 
 
         /* =====================================================
